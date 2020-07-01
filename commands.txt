@@ -1,0 +1,4 @@
+NODE_PORT=3000 NODE_ID=000 npm run dev
+NODE_PORT=3001 NODE_ID=001 npm run dev
+NODE_PORT=3002 NODE_ID=002 npm run dev
+NODE_PORT=3003 NODE_ID=003 npm run dev
