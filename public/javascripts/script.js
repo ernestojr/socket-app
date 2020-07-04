@@ -7,6 +7,7 @@ const newItem = (content) => {
 const id = Date.now();
 $events.appendChild(newItem(`ID: ${id}`));
 const opts = {
+    transports: ['websocket', 'polling'],
     query: `id=${id}`,
 };
 const socket = io(opts);

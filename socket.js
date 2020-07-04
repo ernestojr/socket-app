@@ -14,7 +14,8 @@ let io;
 
 const start = (server) => {
 	const method = 'start';
-	const opts = {
+	const socketOpts = {
+		transports: ['websocket', 'polling'],
 		perMessageDeflate: false,
 		maxHttpBufferSize: 10e7,
 	};
@@ -27,7 +28,7 @@ const start = (server) => {
 	try {
 		const pubClient = redis.createClient(redisOpts);
   	const subClient = redis.createClient(redisOpts);
-		io = socketIO(server, opts);
+		io = socketIO(server, socketOpts);
 		io.adapter(redisAdapter({ pubClient, subClient }));
 		io.on('connection', (socket) => {
 			try {
@@ -55,9 +56,6 @@ const notify = (id, payload) => {
 	}
 	try {
 		console.log(`[${NODE_ID}][${method}] Sending notifcation to ${id}`, JSON.stringify(payload));
-		// if (io.sockets.adapter.rooms[id] === undefined) {
-		// 	throw new Error('Missing Client');
-		// }
 		return io.to(id).emit('notification', payload);
 	} catch (error) {
 		console.error(`[${NODE_ID}][${method}] Error sending notifcation to ${id}`, error);
